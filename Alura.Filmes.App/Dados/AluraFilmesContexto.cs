@@ -27,84 +27,13 @@ namespace Alura.Filmes.App.Dados
         {
             // Configurando Entidade 'Ator'
             // ------------------------------   
-            modelBuilder.Entity<Ator>().
-                ToTable("actor");
-
-            modelBuilder.Entity<Ator>()
-                .Property(a => a.Id)
-                .HasColumnName("actor_id");
-
-            modelBuilder.Entity<Ator>()
-                .Property(a => a.PrimeiroNome)
-                .HasColumnName("first_name")
-                .HasColumnType("VARCHAR(45)")
-                .IsRequired();
-
-            modelBuilder.Entity<Ator>()
-                .Property(a => a.UltimoNome)
-                .HasColumnName("last_name")
-                .HasColumnType("VARCHAR(45)")
-                .IsRequired();
-
-            // Shadow Properties
-            // (Propriedade que não está declarada no modelo de negócio, porém
-            // está modelada na tabela da entitade)
-            modelBuilder.Entity<Ator>()
-                .Property<DateTime>("last_update")
-                .HasColumnType("DATETIME")
-                .HasDefaultValueSql("getdate()")
-                .IsRequired();
-
+            modelBuilder.ApplyConfiguration(new AtorConfiguration());
             // -------------------------------
 
 
-            // Configurando Entidade 'Ator'
+            // Configurando Entidade 'Filme'
             // ------------------------------
-            modelBuilder.Entity<Filme>()
-                .ToTable("film");
-
-            modelBuilder.Entity<Filme>()
-                .Property(f => f.Id)
-                .HasColumnName("film_id");
-
-            modelBuilder.Entity<Filme>()
-                .Property(f => f.Titulo)
-                .HasColumnName("title")
-                .HasColumnType("VARCHAR(255)")
-                .IsRequired();
-
-            modelBuilder.Entity<Filme>()
-                .Property(f => f.Descricao)
-                .HasColumnName("description")
-                .HasColumnType("TEXT");
-
-            modelBuilder.Entity<Filme>()
-                .Property(f => f.Duracao)
-                .HasColumnName("length");
-
-            modelBuilder.Entity<Filme>()
-                .Property(f => f.AnoLancamento)
-                .HasColumnName("release_year")
-                .HasColumnType("VARCHAR(4)");
-
-            modelBuilder.Entity<Filme>()
-                .Property(f => f.Titulo)
-                .HasColumnName("title")
-                .HasColumnType("VARCHAR(45)")
-                .IsRequired();
-
-            // Shadow Properties
-            // (Propriedade que não está declarada no modelo de negócio, porém
-            // está modelada na tabela da entitade)
-            //modelBuilder.Entity<Filme>()
-            //    .Property<string>("rating")
-            //    .HasColumnType("VARCHAR(10)");
-
-            modelBuilder.Entity<Filme>()
-                .Property<DateTime>("last_update")
-                .HasColumnType("DATETIME")
-                .HasDefaultValueSql("getdate()")
-                .IsRequired();
+            modelBuilder.ApplyConfiguration(new FilmeConfiguration());
             // ------------------------------
         }
     }
