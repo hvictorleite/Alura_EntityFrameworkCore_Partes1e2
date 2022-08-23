@@ -32,21 +32,36 @@ namespace Alura.Filmes.App
             //    contexto.SaveChanges();
             //}
 
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+            //    contexto.LogSQLToConsole();
+
+            //    // Listar 10 atores modificados recentemente
+            //    var atores = contexto.Atores
+            //                    .OrderByDescending(a => EF.Property<DateTime>(a, "last_update"))
+            //                    .Take(10);
+
+            //    foreach(var ator in atores)
+            //    {
+            //        Console.WriteLine(ator + " - "
+            //            + contexto.Entry(ator).Property("last_update").CurrentValue);
+            //    }
+
+            //}
+
             using (var contexto = new AluraFilmesContexto())
             {
                 contexto.LogSQLToConsole();
 
-                // Listar 10 atores modificados recentemente
-                var atores = contexto.Atores
-                                .OrderByDescending(a => EF.Property<DateTime>(a, "last_update"))
-                                .Take(10);
-                
-                foreach(var ator in atores)
+                foreach (var item in contexto.FilmesAtores)
                 {
-                    Console.WriteLine(ator + " - "
-                        + contexto.Entry(ator).Property("last_update").CurrentValue);
-                }
+                    var entidade = contexto.Entry(item);
+                    var filme_id = entidade.Property("film_id").CurrentValue;
+                    var ator_id = entidade.Property("actor_id").CurrentValue;
+                    var last_upd = entidade.Property("last_update").CurrentValue;
 
+                    Console.WriteLine($"Filme {filme_id}, Ator {ator_id}, Última Atualização: {last_upd}");
+                }
             }
 
         }
