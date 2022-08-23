@@ -24,7 +24,7 @@ namespace Alura.Filmes.App
                 var ator = new Ator();
                 ator.PrimeiroNome = "Tom";
                 ator.UltimoNome = "Hanks";
-                contexto.Entry(ator).Property("last_update").CurrentValue = DateTime.Now;
+                //contexto.Entry(ator).Property("last_update").CurrentValue = DateTime.Now;
 
                 contexto.Atores.Add(ator);
 
