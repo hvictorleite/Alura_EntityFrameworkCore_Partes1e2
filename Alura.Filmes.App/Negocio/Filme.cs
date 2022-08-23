@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alura.Filmes.App.Dados;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,12 @@ namespace Alura.Filmes.App.Negocio
         public string Descricao { get; set; }
         public short Duracao { get; set; }
         public string AnoLancamento { get; set; }
+        public IList<FilmeAtor> Elenco { get; set; }
+
+        public Filme()
+        {
+            Elenco = new List<FilmeAtor>();
+        }
 
         public override string ToString()
         {

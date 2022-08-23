@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alura.Filmes.App.Dados;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace Alura.Filmes.App.Negocio
 {
     public class FilmeAtor
     {
+        public Filme Filme { get; set; }
+        public Ator Ator { get; set; }
 
     }
 }

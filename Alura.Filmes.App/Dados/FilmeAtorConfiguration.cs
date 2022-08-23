@@ -31,10 +31,20 @@ namespace Alura.Filmes.App.Dados
                 .HasDefaultValueSql("GETDATE()")
                 .IsRequired();
 
-            // Configurando chave primaria/estrangeira
+            // Configurando chave primaria
             builder
                 .HasKey("film_id", "actor_id");
 
+            // Configurando chaves estrangeiras
+            builder
+                .HasOne(fa => fa.Filme)
+                .WithMany(f => f.Elenco)
+                .HasForeignKey("film_id");
+
+            builder
+                .HasOne(fa => fa.Ator)
+                .WithMany(a => a.Filmografia)
+                .HasForeignKey("actor_id");
         }
     }
 }

@@ -49,18 +49,22 @@ namespace Alura.Filmes.App
 
             //}
 
+            // SELECT com JOIN entre 'Filme', 'FilmeAtor' e 'Ator'
             using (var contexto = new AluraFilmesContexto())
             {
                 contexto.LogSQLToConsole();
 
-                foreach (var item in contexto.FilmesAtores)
-                {
-                    var entidade = contexto.Entry(item);
-                    var filme_id = entidade.Property("film_id").CurrentValue;
-                    var ator_id = entidade.Property("actor_id").CurrentValue;
-                    var last_upd = entidade.Property("last_update").CurrentValue;
+                var filme = contexto.Filmes
+                    .Include(f => f.Elenco)
+                    .ThenInclude(fa => fa.Ator)
+                    .First();
 
-                    Console.WriteLine($"Filme {filme_id}, Ator {ator_id}, Última Atualização: {last_upd}");
+                Console.WriteLine(filme);
+                Console.WriteLine("Elenco:");
+
+                foreach (var ator in filme.Elenco)
+                {
+                    Console.WriteLine(ator.Ator);
                 }
             }
 
