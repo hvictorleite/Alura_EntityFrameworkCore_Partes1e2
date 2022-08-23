@@ -47,9 +47,11 @@ namespace Alura.Filmes.App.Dados
                 .IsRequired();
 
             // Shadow Properties
-            // (Propriedade )
+            // (Propriedade que não está declarada no modelo de negócio, porém
+            // está modelada na tabela da entitade)
             modelBuilder.Entity<Ator>()
                 .Property<DateTime>("last_update")
+                .HasColumnType("DATETIME")
                 .IsRequired();
 
             // -------------------------------
