@@ -114,16 +114,41 @@ namespace Alura.Filmes.App
 
             //}
 
+            // SELECT com JOIN de Idiomas que estão como Idiomas Falados em filmes
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+            //    contexto.LogSQLToConsole();
 
-            using (var contexto = new AluraFilmesContexto())
-            {
-                contexto.LogSQLToConsole();
+            //    var idiomas = contexto.Idiomas
+            //        .Include(i => i.FilmesFalados);
 
-                foreach(var idioma in contexto.Idiomas)
-                {
-                    Console.WriteLine(idioma);
-                }
-            }
+            //    foreach (var idioma in idiomas)
+            //    {
+            //        Console.WriteLine(idioma);
+
+            //        foreach(var filme in idioma.FilmesFalados)
+            //        {
+            //            Console.WriteLine(filme);
+            //        }
+            //        Console.WriteLine("\n");
+            //    }
+            //}
+
+
+            // SELECT com JOIN de Filmes e seus idiomas falados
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+            //    contexto.LogSQLToConsole();
+
+            //    var filmes = contexto.Filmes
+            //        .Include(f => f.IdiomaFalado);
+
+            //    foreach (var filme in filmes)
+            //    {
+            //        Console.WriteLine(filme);
+            //        Console.WriteLine(filme.IdiomaFalado);
+            //    }
+            //}
 
         }
     }
