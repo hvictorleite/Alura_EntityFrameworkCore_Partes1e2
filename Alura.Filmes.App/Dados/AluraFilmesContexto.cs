@@ -17,6 +17,7 @@ namespace Alura.Filmes.App.Dados
         public DbSet<FilmeAtor> FilmesAtores { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<FilmeCategoria> FilmesCategorias { get; set; }
+        public DbSet<Idioma> Idiomas { get; set; }
 
 
         // Configuração de conexão com o Banco de Dados
@@ -54,6 +55,10 @@ namespace Alura.Filmes.App.Dados
             modelBuilder.ApplyConfiguration(new FilmeCategoriaConfiguration());
             // ------------------------------
 
+            // Configurando Entidade 'Idioma'
+            // ------------------------------
+            modelBuilder.ApplyConfiguration(new IdiomaConfiguration());
+            // ------------------------------
         }
     }
 }

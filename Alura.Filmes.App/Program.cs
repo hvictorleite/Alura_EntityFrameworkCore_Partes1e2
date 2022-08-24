@@ -70,28 +70,28 @@ namespace Alura.Filmes.App
 
 
             // SELECT com JOIN entre 'Filme', 'FilmeAtor' e 'Ator'
-            using (var contexto = new AluraFilmesContexto())
-            {
-                contexto.LogSQLToConsole();
+            //            using (var contexto = new AluraFilmesContexto())
+            //            {
+            //                contexto.LogSQLToConsole();
 
-                // Lista de Filmes de todas as categorias
-                var categorias = contexto.Categorias
-                    .Include(c => c.Filmes)
-                    .ThenInclude(fc => fc.Filme);
-;
-                Console.WriteLine("Categorias:");
+            //                // Lista de Filmes de todas as categorias
+            //                var categorias = contexto.Categorias
+            //                    .Include(c => c.Filmes)
+            //                    .ThenInclude(fc => fc.Filme);
+            //;
+            //                Console.WriteLine("Categorias:");
 
-                foreach (var categoria in categorias)
-                {
-                    Console.WriteLine("\nFilmes da " + categoria);
+            //                foreach (var categoria in categorias)
+            //                {
+            //                    Console.WriteLine("\nFilmes da " + categoria);
 
-                    foreach(var fc in categoria.Filmes)
-                    {
-                        Console.WriteLine(fc.Filme);
-                    }
-                }
+            //                    foreach(var fc in categoria.Filmes)
+            //                    {
+            //                        Console.WriteLine(fc.Filme);
+            //                    }
+            //                }
 
-            }
+            //            }
 
             //using (var contexto = new AluraFilmesContexto())
             //{
@@ -113,6 +113,17 @@ namespace Alura.Filmes.App
             //    }
 
             //}
+
+
+            using (var contexto = new AluraFilmesContexto())
+            {
+                contexto.LogSQLToConsole();
+
+                foreach(var idioma in contexto.Idiomas)
+                {
+                    Console.WriteLine(idioma);
+                }
+            }
 
         }
     }
