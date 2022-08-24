@@ -50,23 +50,69 @@ namespace Alura.Filmes.App
             //}
 
             // SELECT com JOIN entre 'Filme', 'FilmeAtor' e 'Ator'
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+            //    contexto.LogSQLToConsole();
+
+            //    var filme = contexto.Filmes
+            //        .Include(f => f.Elenco)
+            //        .ThenInclude(fa => fa.Ator)
+            //        .First();
+
+            //    Console.WriteLine(filme);
+            //    Console.WriteLine("Elenco:");
+
+            //    foreach (var ator in filme.Elenco)
+            //    {
+            //        Console.WriteLine(ator.Ator);
+            //    }
+            //}
+
+
+            // SELECT com JOIN entre 'Filme', 'FilmeAtor' e 'Ator'
             using (var contexto = new AluraFilmesContexto())
             {
                 contexto.LogSQLToConsole();
 
-                var filme = contexto.Filmes
-                    .Include(f => f.Elenco)
-                    .ThenInclude(fa => fa.Ator)
-                    .First();
+                // Lista de Filmes de todas as categorias
+                var categorias = contexto.Categorias
+                    .Include(c => c.Filmes)
+                    .ThenInclude(fc => fc.Filme);
+;
+                Console.WriteLine("Categorias:");
 
-                Console.WriteLine(filme);
-                Console.WriteLine("Elenco:");
-
-                foreach (var ator in filme.Elenco)
+                foreach (var categoria in categorias)
                 {
-                    Console.WriteLine(ator.Ator);
+                    Console.WriteLine("\nFilmes da " + categoria);
+
+                    foreach(var fc in categoria.Filmes)
+                    {
+                        Console.WriteLine(fc.Filme);
+                    }
                 }
+
             }
+
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+
+            //    contexto.LogSQLToConsole();
+
+            //    Lista de categorias do primeiro filme da lista
+            //   var filme = contexto.Filmes
+            //       .Include(f => f.Categorias)
+            //       .ThenInclude(fc => fc.Categoria)
+            //       .First();
+
+            //    Console.WriteLine(filme);
+            //    Console.WriteLine("Categorias:");
+
+            //    foreach (var categoria in filme.Categorias)
+            //    {
+            //        Console.WriteLine(categoria.Categoria);
+            //    }
+
+            //}
 
         }
     }

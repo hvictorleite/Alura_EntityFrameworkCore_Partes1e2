@@ -15,6 +15,9 @@ namespace Alura.Filmes.App.Dados
         public DbSet<Ator> Atores { get; set; }
         public DbSet<Filme> Filmes { get; set; }
         public DbSet<FilmeAtor> FilmesAtores { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<FilmeCategoria> FilmesCategorias { get; set; }
+
 
         // Configuração de conexão com o Banco de Dados
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -31,7 +34,6 @@ namespace Alura.Filmes.App.Dados
             modelBuilder.ApplyConfiguration(new AtorConfiguration());
             // -------------------------------
 
-
             // Configurando Entidade 'Filme'
             // ------------------------------
             modelBuilder.ApplyConfiguration(new FilmeConfiguration());
@@ -41,6 +43,17 @@ namespace Alura.Filmes.App.Dados
             // ------------------------------
             modelBuilder.ApplyConfiguration(new FilmeAtorConfiguration());
             // ------------------------------
+
+            // Configurando Entidade 'Categoria'
+            // ------------------------------
+            modelBuilder.ApplyConfiguration(new CategoriaConfiguration());
+            // ------------------------------
+
+            // Configurando Entidade 'FilmeCategoria'
+            // ------------------------------
+            modelBuilder.ApplyConfiguration(new FilmeCategoriaConfiguration());
+            // ------------------------------
+
         }
     }
 }
