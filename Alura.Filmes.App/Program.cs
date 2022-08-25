@@ -153,14 +153,41 @@ namespace Alura.Filmes.App
 
             using (var contexto  = new AluraFilmesContexto())
             {
+                contexto.LogSQLToConsole();
+
+                var livre = ClassificacaoIndicativa.Livre;
+                string textoLivre = "G";
+
                 var idioma = new Idioma() { Nome = "English" };
 
                 var filme = new Filme();
                 filme.Titulo = "O Senhor do Anéis";
                 filme.Duracao = 120;
                 filme.AnoLancamento = "2000";
-                filme.Classificacao = "Qualquer";
+                filme.Classificacao = ClassificacaoIndicativa.Livre;
                 filme.IdiomaFalado = idioma;
+
+                // LEMBRE-SE:
+                // O Entity Framework não tem uma solução nativa para estabelecer
+                // 'checks' para um campo, todavia aceita que sejam enviados
+                // comandos SQL junto a uma Migration. Como exemplo do que
+                // deve ser feito nestes casos, temos:
+                // (dentro do método 'Up' da Migration) ->
+                // var comandoSql = ALTER TABLE [dbo].[film]
+                //      ADD CONSTRAINT[check_rating] CHECK(
+                //          [rating] = 'NC-17' OR
+                //          [rating] = 'R' OR
+                //          [rating] = 'PG-13' OR
+                //          [rating] = 'PG' OR
+                //          [rating] = 'G');
+                // migrationBuilder.comandoSql(sql);
+                // (dentro do método 'Down' da Migration)
+                // migrationBuilder.Sql("ALTER TABLE [dbo].[film]
+                //      DROP CONSTRAINT[check_rating]");
+
+
+
+
             }
 
         }
