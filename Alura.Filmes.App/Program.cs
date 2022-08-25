@@ -1,5 +1,6 @@
 ﻿using Alura.Filmes.App.Dados;
 using Alura.Filmes.App.Extensions;
+using Alura.Filmes.App.Negocio;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -149,6 +150,18 @@ namespace Alura.Filmes.App
             //        Console.WriteLine(filme.IdiomaFalado);
             //    }
             //}
+
+            using (var contexto  = new AluraFilmesContexto())
+            {
+                var idioma = new Idioma() { Nome = "English" };
+
+                var filme = new Filme();
+                filme.Titulo = "O Senhor do Anéis";
+                filme.Duracao = 120;
+                filme.AnoLancamento = "2000";
+                filme.Classificacao = "Qualquer";
+                filme.IdiomaFalado = idioma;
+            }
 
         }
     }

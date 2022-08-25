@@ -54,9 +54,6 @@ namespace Alura.Filmes.App.Dados
             // Shadow Properties
             // (Propriedade que não está declarada no modelo de negócio, porém
             // está modelada na tabela da entitade)
-            //builder
-            //    .Property<string>("rating")
-            //    .HasColumnType("VARCHAR(10)");
 
             builder
                 .Property<DateTime>("last_update")
