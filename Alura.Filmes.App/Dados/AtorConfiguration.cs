@@ -39,6 +39,10 @@ namespace Alura.Filmes.App.Dados
                 .HasColumnType("DATETIME")
                 .HasDefaultValueSql("getdate()")
                 .IsRequired();
+
+            // Indexes
+            builder
+                .HasIndex(a => a.UltimoNome);
         }
 
     }
