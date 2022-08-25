@@ -46,10 +46,14 @@ namespace Alura.Filmes.App.Dados
                 .HasColumnType("VARCHAR(45)")
                 .IsRequired();
 
+            // Classificacao remodelada
             builder
-                .Property(f => f.Classificacao)
+                .Property(f => f.TextoClassificacao)
                 .HasColumnName("rating")
                 .HasColumnType("VARCHAR(10)");
+
+            builder
+                .Ignore(f => f.Classificacao);
 
             // Shadow Properties
             // (Propriedade que não está declarada no modelo de negócio, porém

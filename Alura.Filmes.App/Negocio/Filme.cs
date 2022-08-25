@@ -1,4 +1,5 @@
 ﻿using Alura.Filmes.App.Dados;
+using Alura.Filmes.App.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace Alura.Filmes.App.Negocio
         public string Descricao { get; set; }
         public short Duracao { get; set; }
         public string AnoLancamento { get; set; }
-        public ClassificacaoIndicativa Classificacao { get; set; }
+        public string TextoClassificacao { get; private set; }
+        public ClassificacaoIndicativa Classificacao
+        {
+            get { return TextoClassificacao.paraValor(); }
+            set { TextoClassificacao = value.paraString(); }
+        }
         public IList<FilmeAtor> Elenco { get; set; }
         public IList<FilmeCategoria> Categorias { get; set; }
         public Idioma IdiomaFalado { get; set; }
