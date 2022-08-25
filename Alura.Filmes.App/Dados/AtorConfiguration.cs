@@ -42,7 +42,17 @@ namespace Alura.Filmes.App.Dados
 
             // Indexes
             builder
-                .HasIndex(a => a.UltimoNome);
+                .HasIndex(a => a.UltimoNome)
+                .HasName("idx_actor_last_name");
+
+            // UNIQUE / Alternative Key
+            // A restrição não pode ser feita depois que os
+            // campos a serem restringidos já foram criados
+            builder
+                .HasAlternateKey(a => new { a.PrimeiroNome, a.UltimoNome });
+            
+            
+
         }
 
     }
