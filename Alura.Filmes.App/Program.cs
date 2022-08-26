@@ -187,19 +187,42 @@ namespace Alura.Filmes.App
             //}
 
             // SELECT na tabela de 'Cliente' e 'Funcionario'
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+            //    contexto.LogSQLToConsole();
+
+            //    foreach (var cliente in contexto.Clientes)
+            //    {
+            //        Console.WriteLine(cliente);
+            //    }
+
+            //    foreach (var funcionario in contexto.Funcionarios)
+            //    {
+            //        Console.WriteLine(funcionario);
+            //    }
+            //}
+
+            // SELECTs Complexos - Relatório
             using (var contexto = new AluraFilmesContexto())
             {
                 contexto.LogSQLToConsole();
 
-                foreach (var cliente in contexto.Clientes)
+                // Relação entre 'Ator' e 'FilmeAtor'
+                // Obtendo os cinco atores que mais atuaram em filmes
+                    // Fazendo somente pelo Entity Framework Core
+                var atoresMaisAtuantes = contexto.Atores
+                    .Include(a => a.Filmografia)
+                    .OrderByDescending(a => a.Filmografia.Count)
+                    .Take(5);
+
+
+                // Exibindo os top cinco atores com maior filmografia
+                foreach (var ator in atoresMaisAtuantes)
                 {
-                    Console.WriteLine(cliente);
+                    Console.WriteLine($"O ator {ator.PrimeiroNome} {ator.UltimoNome} atuou em {ator.Filmografia.Count} filmes.");
                 }
 
-                foreach (var funcionario in contexto.Funcionarios)
-                {
-                    Console.WriteLine(funcionario);
-                }
+
             }
                  
         }
