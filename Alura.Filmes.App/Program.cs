@@ -209,12 +209,29 @@ namespace Alura.Filmes.App
 
                 // Relação entre 'Ator' e 'FilmeAtor'
                 // Obtendo os cinco atores que mais atuaram em filmes
-                    // Fazendo somente pelo Entity Framework Core
-                var atoresMaisAtuantes = contexto.Atores
-                    .Include(a => a.Filmografia)
-                    .OrderByDescending(a => a.Filmografia.Count)
-                    .Take(5);
+                // Fazendo somente pelo Entity Framework Core
+                //var atoresMaisAtuantes = contexto.Atores
+                //    .Include(a => a.Filmografia)
+                //    .OrderByDescending(a => a.Filmografia.Count)
+                //    .Take(5);
 
+                // Fazendo com linguagem SQL
+                // utilizando o método 'FromSql()' do EF Core
+                // OBS: Ver as limitações do método 'FromSql()' na documentação do EF
+                var sql =
+                    @"SELECT a.* FROM actor a
+                        INNER JOIN 
+                            (SELECT TOP 5
+                                a.actor_id COUNT(*) AS total
+                                FROM actor a
+                                INNER JOIN film_actor fa
+                                    ON fa.actor_id = a.actor_id
+                            GROUP BY a.actor_id
+                            ORDER BY total DESC) filmes
+                        ON filmes.actor_id = a.actor_id";
+                var atoresMaisAtuantes =
+                    contexto.Atores.FromSql(sql)
+                        .Include(a => a.Filmografia);
 
                 // Exibindo os top cinco atores com maior filmografia
                 foreach (var ator in atoresMaisAtuantes)
