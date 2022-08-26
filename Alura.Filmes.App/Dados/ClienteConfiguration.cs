@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace Alura.Filmes.App.Dados
 {
-    public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
+    public class ClienteConfiguration : PessoaConfiguration<Cliente>
     {
-        public void Configure(EntityTypeBuilder<Cliente> builder)
+        public override void Configure(EntityTypeBuilder<Cliente> builder)
         {
+            base.Configure(builder);
+
             builder
                 .ToTable("costumer");
 

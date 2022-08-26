@@ -67,7 +67,7 @@ namespace Alura.Filmes.App.Dados
             modelBuilder.ApplyConfiguration(new ClienteConfiguration());
             // ------------------------------
 
-            // Configurando Entidade 'Cliente'
+            // Configurando Entidade 'Funcionario'
             // ------------------------------
             modelBuilder.ApplyConfiguration(new FuncionarioConfiguration());
             // ------------------------------

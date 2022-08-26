@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Alura.Filmes.App.Dados
 {
-    public class PessoaConfiguration : IEntityTypeConfiguration<Pessoa>
+    public class PessoaConfiguration<T> : IEntityTypeConfiguration<T> where T : Pessoa
     {
-        public void Configure(EntityTypeBuilder<Pessoa> builder)
+        public virtual void Configure(EntityTypeBuilder<T> builder)
         {
             builder
                 .Property(c => c.PrimeiroNome)
