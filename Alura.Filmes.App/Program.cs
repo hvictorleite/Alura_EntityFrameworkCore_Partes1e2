@@ -261,28 +261,50 @@ namespace Alura.Filmes.App
 
             // Executando 'Stored Procedures' no EF Core
             // para exibir atores que atuaram em filmes de uma determinada categoria
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+            //    contexto.LogSQLToConsole();
+
+
+            //    var categ = "Action"; // resposta esperada da consulta: 36
+
+            //    var paramCateg = new SqlParameter("category_name", categ);
+            //    var paramTotal = new SqlParameter
+            //    {
+            //        ParameterName = "@total_actors",
+            //        Size = 4,
+            //        Direction = System.Data.ParameterDirection.Output
+            //    };
+
+
+            //    contexto.Database.ExecuteSqlCommand(
+            //        "EXECUTE total_actors_from_give_category @category_name @total_actors OUT", paramCateg, paramTotal);
+
+            //    Console.WriteLine($"O total de atores na categoria {categ} é {paramTotal.Value}.");
+            //}
+
+
+            // Executando queries de 'INSERT', 'UPDATE' e 'DELETE'
+            // com o método 'ExecuteSqlCommand()'
             using (var contexto = new AluraFilmesContexto())
             {
                 contexto.LogSQLToConsole();
 
+                var insertSql = "INSERT INTO language (name) " +
+                                    "VALUES ('Teste 1'), ('Teste 2'), ('Teste 3')";
+                var registrosInsert = contexto.Database.ExecuteSqlCommand(insertSql);
+                Console.WriteLine($"O total de registros afetados é: {registrosInsert}");
 
-                var categ = "Action"; // resposta esperada da consulta: 36
+                var updateSql = "UPDATE language " +
+                                "SET name = 'Teste UPDATE' " +
+                                "WHERE name = 'Teste%'";
+                var registrosUpdate = contexto.Database.ExecuteSqlCommand(updateSql);
+                Console.WriteLine($"O total de registros afetados é: {registrosUpdate}");
 
-                var paramCateg = new SqlParameter("category_name", categ);
-                var paramTotal = new SqlParameter
-                {
-                    ParameterName = "@total_actors",
-                    Size = 4,
-                    Direction = System.Data.ParameterDirection.Output
-                };
-
-
-                contexto.Database.ExecuteSqlCommand(
-                    "EXECUTE total_actors_from_give_category @category_name @total_actors OUT", paramCateg, paramTotal);
-
-                Console.WriteLine($"O total de atores na categoria {categ} é {paramTotal.Value}.");
+                var deleteSql = "DELETE FROM language WHERE name LIKE 'Novo Teste'";
+                var registrosDelete = contexto.Database.ExecuteSqlCommand(deleteSql);
+                Console.WriteLine($"O total de registros afetados é: {registrosDelete}");
             }
-                 
         }
     }
 }
