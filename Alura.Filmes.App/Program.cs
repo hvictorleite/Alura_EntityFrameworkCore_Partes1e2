@@ -3,6 +3,7 @@ using Alura.Filmes.App.Extensions;
 using Alura.Filmes.App.Negocio;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Alura.Filmes.App
@@ -202,61 +203,84 @@ namespace Alura.Filmes.App
             //    }
             //}
 
-            // SELECTs Complexos - Relatório
+            //SELECTs Complexos -Relatório
+            //using (var contexto = new AluraFilmesContexto())
+            //{
+            //    contexto.LogSQLToConsole();
+
+            //    Relação entre 'Ator' e 'FilmeAtor'
+            //     Obtendo os cinco atores que mais atuaram em filmes
+            //     Fazendo somente pelo Entity Framework Core
+            //    var atoresMaisAtuantes = contexto.Atores
+            //        .Include(a => a.Filmografia)
+            //        .OrderByDescending(a => a.Filmografia.Count)
+            //        .Take(5);
+
+            //    Fazendo com linguagem SQL
+            //     utilizando o método 'FromSql()' do EF Core
+            //     OBS: Ver as limitações do método 'FromSql()' na documentação do EF
+            //    var sql =
+            //        @"SELECT a.* FROM actor a
+            //            INNER JOIN 
+            //                (SELECT TOP 5
+            //                    a.actor_id COUNT(*) AS total
+            //                    FROM actor a
+            //                    INNER JOIN film_actor fa
+            //                        ON fa.actor_id = a.actor_id
+            //                GROUP BY a.actor_id
+            //                ORDER BY total DESC) filmes
+            //            ON filmes.actor_id = a.actor_id";
+            //    var atoresMaisAtuantes =
+            //        contexto.Atores.FromSql(sql)
+            //            .Include(a => a.Filmografia);
+
+            //    Segunda opção: Query SQL com View utilizando o 'FromSql()'
+            //     OBS: O EF Core(pelo menos a versão 2.0) não suporta o uso de View,
+            //         mas se a View já está declarada no BD, podemos utilizá - la através
+            //          do 'FromSQL()'.No caso, utilizaremos a View 'top5_most_starred_actors'
+            //    var sql =
+            //        @"SELECT a.* FROM actor a
+            //            INNER JOIN 
+            //                top5_most_starred_actors filmes
+            //            ON filmes.actor_id = a.actor_id";
+            //    var atoresMaisAtuantes =
+            //        contexto.Atores.FromSql(sql)
+            //            .Include(a => a.Filmografia);
+
+
+            //    // Os cinco filmes mais longos
+            //    var filmesMaisLongos = 0;
+
+            //    // Exibindo os top cinco atores com maior filmografia
+            //    foreach (var ator in atoresMaisAtuantes)
+            //    {
+            //        Console.WriteLine($"O ator {ator.PrimeiroNome} {ator.UltimoNome} atuou em {ator.Filmografia.Count} filmes.");
+            //    }
+
+            //}
+
+            // Executando 'Stored Procedures' no EF Core
+            // para exibir atores que atuaram em filmes de uma determinada categoria
             using (var contexto = new AluraFilmesContexto())
             {
                 contexto.LogSQLToConsole();
 
-                // Relação entre 'Ator' e 'FilmeAtor'
-                // Obtendo os cinco atores que mais atuaram em filmes
-                // Fazendo somente pelo Entity Framework Core
-                //var atoresMaisAtuantes = contexto.Atores
-                //    .Include(a => a.Filmografia)
-                //    .OrderByDescending(a => a.Filmografia.Count)
-                //    .Take(5);
 
-                // Fazendo com linguagem SQL
-                // utilizando o método 'FromSql()' do EF Core
-                // OBS: Ver as limitações do método 'FromSql()' na documentação do EF
-                //var sql =
-                //    @"SELECT a.* FROM actor a
-                //        INNER JOIN 
-                //            (SELECT TOP 5
-                //                a.actor_id COUNT(*) AS total
-                //                FROM actor a
-                //                INNER JOIN film_actor fa
-                //                    ON fa.actor_id = a.actor_id
-                //            GROUP BY a.actor_id
-                //            ORDER BY total DESC) filmes
-                //        ON filmes.actor_id = a.actor_id";
-                //var atoresMaisAtuantes =
-                //    contexto.Atores.FromSql(sql)
-                //        .Include(a => a.Filmografia);
+                var categ = "Action"; // resposta esperada da consulta: 36
 
-                // Segunda opção: Query SQL com View utilizando o 'FromSql()'
-                // OBS: O EF Core (pelo menos a versão 2.0) não suporta o uso de View,
-                //      mas se a View já está declarada no BD, podemos utilizá-la através
-                //      do 'FromSQL()'. No caso, utilizaremos a View 'top5_most_starred_actors'
-                var sql =
-                    @"SELECT a.* FROM actor a
-                        INNER JOIN 
-                            top5_most_starred_actors filmes
-                        ON filmes.actor_id = a.actor_id";
-                var atoresMaisAtuantes =
-                    contexto.Atores.FromSql(sql)
-                        .Include(a => a.Filmografia);
-
-
-                // Os cinco filmes mais longos
-                var filmesMaisLongos = 0;
-
-                // Exibindo os top cinco atores com maior filmografia
-                foreach (var ator in atoresMaisAtuantes)
+                var paramCateg = new SqlParameter("category_name", categ);
+                var paramTotal = new SqlParameter
                 {
-                    Console.WriteLine($"O ator {ator.PrimeiroNome} {ator.UltimoNome} atuou em {ator.Filmografia.Count} filmes.");
-                }
+                    ParameterName = "@total_actors",
+                    Size = 4,
+                    Direction = System.Data.ParameterDirection.Output
+                };
 
 
+                contexto.Database.ExecuteSqlCommand(
+                    "EXECUTE total_actors_from_give_category @category_name @total_actors OUT", paramCateg, paramTotal);
+
+                Console.WriteLine($"O total de atores na categoria {categ} é {paramTotal.Value}.");
             }
                  
         }
