@@ -218,20 +218,37 @@ namespace Alura.Filmes.App
                 // Fazendo com linguagem SQL
                 // utilizando o método 'FromSql()' do EF Core
                 // OBS: Ver as limitações do método 'FromSql()' na documentação do EF
+                //var sql =
+                //    @"SELECT a.* FROM actor a
+                //        INNER JOIN 
+                //            (SELECT TOP 5
+                //                a.actor_id COUNT(*) AS total
+                //                FROM actor a
+                //                INNER JOIN film_actor fa
+                //                    ON fa.actor_id = a.actor_id
+                //            GROUP BY a.actor_id
+                //            ORDER BY total DESC) filmes
+                //        ON filmes.actor_id = a.actor_id";
+                //var atoresMaisAtuantes =
+                //    contexto.Atores.FromSql(sql)
+                //        .Include(a => a.Filmografia);
+
+                // Segunda opção: Query SQL com View utilizando o 'FromSql()'
+                // OBS: O EF Core (pelo menos a versão 2.0) não suporta o uso de View,
+                //      mas se a View já está declarada no BD, podemos utilizá-la através
+                //      do 'FromSQL()'. No caso, utilizaremos a View 'top5_most_starred_actors'
                 var sql =
                     @"SELECT a.* FROM actor a
                         INNER JOIN 
-                            (SELECT TOP 5
-                                a.actor_id COUNT(*) AS total
-                                FROM actor a
-                                INNER JOIN film_actor fa
-                                    ON fa.actor_id = a.actor_id
-                            GROUP BY a.actor_id
-                            ORDER BY total DESC) filmes
+                            top5_most_starred_actors filmes
                         ON filmes.actor_id = a.actor_id";
                 var atoresMaisAtuantes =
                     contexto.Atores.FromSql(sql)
                         .Include(a => a.Filmografia);
+
+
+                // Os cinco filmes mais longos
+                var filmesMaisLongos = 0;
 
                 // Exibindo os top cinco atores com maior filmografia
                 foreach (var ator in atoresMaisAtuantes)
